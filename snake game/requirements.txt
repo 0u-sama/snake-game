@@ -1,0 +1,1 @@
+you will need pygame library for this game to run

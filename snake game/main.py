@@ -1,12 +1,12 @@
 import pygame
 import settings
-from func import Player
+import func
 
 
 pygame.init()
 dt = 0
 screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT))
-player = Player(screen.get_width() / 2, screen.get_height() / 2)
+player = func.Player(screen.get_width() / 2, screen.get_height() / 2)
 clock = pygame.time.Clock()
 
 
@@ -20,10 +20,11 @@ while running:
 
     screen.fill("Black")
 
-    "pygame.draw.circle(screen, 'Black', player_pos, 20)"
     player.draw_p(screen)
 
     player.x_pos, player.y_pos = player.player_mvt()
+    func.food(screen)
+
 
     pygame.display.flip()
     player.dt = clock.tick(settings.REFRESH_RATE) / 1000
