@@ -8,6 +8,7 @@ dt = 0
 screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT))
 player = func.Player(screen.get_width() / 2, screen.get_height() / 2)
 clock = pygame.time.Clock()
+collide = None
 
 
 
@@ -19,12 +20,13 @@ while running:
             running = False
 
     screen.fill("Black")
-
-    player.draw_p(screen)
+    food_pos, f_size = func.food(screen, collide)
+    p_size = player.draw_p(screen)
 
     player.x_pos, player.y_pos = player.player_mvt()
-    func.food(screen)
 
+
+    collide = func.collision(player.x_pos, player.y_pos, food_pos, p_size[0], f_size, reduction=10)
 
     pygame.display.flip()
     player.dt = clock.tick(settings.REFRESH_RATE) / 1000

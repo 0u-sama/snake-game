@@ -96,6 +96,8 @@ class Player:
         eye_pos = self.rotate_point((self.x_pos, self.y_pos), (self.x_pos + self.eye_offset_x, self.y_pos + self.eye_offset_y), self.angle)
         pygame.draw.circle(screen, 'White', eye_pos, 5)
 
+        return rect.size
+
 
 
 
@@ -111,15 +113,34 @@ class Player:
         return center[0] + rotated_x, center[1] + rotated_y
 
 
-def food(surface):
+def food(surface, collided:bool=False):
     global food_position, spawned_food
 
+
+    if collided:
+        spawned_food = False
     if not spawned_food:
         fx = randint(1, settings.WIDTH)
         fy = randint(1, settings.HEIGHT)
         food_position = (fx, fy)
         spawned_food = True
-    pygame.draw.circle(surface, 'red', food_position, 5)
+    food_size = pygame.draw.circle(surface, 'red', food_position, 5)
+
+
+    return food_position, food_size.width
+
+
+
+def collision(x1, y1, position2, size1, size2, reduction=5) -> bool:
+    x2, y2 = position2
+
+    distance = ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
+    if distance < (size1 / 2 + size2) - reduction:
+        print(f"{x1, y1}")
+        return True
+    else:
+        return False
+
 
 
 
